@@ -33,12 +33,11 @@ export default function Income({ navigation }) {
       <Text>Add income</Text>
       <TextInput
         name="income"
-        className="bg-blue-400 m-4"
         onChangeText={(e) => {
           setInputName(e);
         }}
         value={inputName}
-        placeholder="Freelance"
+        placeholder="ex.Freelance"
       />
 
       <TextInput
@@ -60,28 +59,10 @@ export default function Income({ navigation }) {
       {Budget.map((bud) => (
         <View>
           <Text>{bud.data.insertedIncomeName}</Text>
-          {/* <Expensess bud={bud} /> */}
           <TextInput value={bud.data.insertedIncome} />
         </View>
       ))}
-      {/* <TextInput
-        style={tw`bg-green-400 m-4`} // style={styles.input}
-        // onChangeText={onChangeText}
-        // value={text}
-        placeholder="Essentials"
-      /> */}
-      {/* <TextInput
-        style={tw`bg-green-400 m-4`} // style={styles.input}
-        // onChangeText={onChangeText}
-        // value={text}
-        placeholder="Expensess"
-      /> */}
-      {/* <TextInput
-        style={tw`bg-green-400 m-4`} // style={styles.input}
-        // onChangeText={onChangeText}
-        // value={text}
-        placeholder="Saving"
-      /> */}
+
       <Button
         title="Submit"
         onPress={() => {
