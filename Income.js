@@ -11,6 +11,8 @@ export default function Income({ navigation }) {
   const [Salary, setSalary] = useState();
   const [Budget, setBudget] = useState([]);
 
+  let TotalIncome = Number(Salary) + Number(insertedIncome);
+
   useEffect(() => {
     getDocs(colRef).then((response) => {
       const pt = response.docs.map((doc) => ({
@@ -21,15 +23,26 @@ export default function Income({ navigation }) {
     });
   }, [Budget]);
 
-  const handleInput = () => {
+  const handleInput = (e) => {
     addDoc(colRef, {
       insertedIncomeName: inputName,
       insertedIncome: insertedIncome,
     });
+    setSalary(e);
+    setTotalIncome(TotalIncome);
+    console.log(totalIncome);
   };
 
   return (
     <View>
+      <Text>Salary</Text>
+
+      <TextInput
+        onChangeText={(e) => {
+          setSalary(e);
+        }}
+        placeholder="Salary"
+      />
       <Text>Add income</Text>
       <TextInput
         name="income"
@@ -45,17 +58,15 @@ export default function Income({ navigation }) {
         onChangeText={(e) => setInsertedIncome(e)}
         placeholder="2000"
       />
-      <Text>Salary</Text>
-
-      <TextInput
-        onChangeText={(e) => {
-          setSalary(e);
+      <Button
+        title="Submit"
+        onPress={() => {
+          handleInput();
         }}
-        placeholder="Salary"
-      />
-      <Text>Total income</Text>
+      >
+        Submit
+      </Button>
 
-      <TextInput value={totalIncome} placeholder="Total income" />
       {Budget.map((bud) => (
         <View>
           <Text>{bud.data.insertedIncomeName}</Text>
@@ -64,12 +75,12 @@ export default function Income({ navigation }) {
       ))}
 
       <Button
-        title="Submit"
+        title="Continue"
         onPress={() => {
-          handleInput(), navigation.navigate("Expensess");
+          navigation.navigate("Expensess");
         }}
       >
-        Submit
+        Continue{" "}
       </Button>
     </View>
   );

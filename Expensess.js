@@ -9,6 +9,8 @@ export default function Expensess({ navigation, bud }) {
   const [insertedExpensess, setInsertedExpensess] = useState();
   const [Expensess, setExpensess] = useState();
   const [ExpensessRefBudget, setExpensessRefBudget] = useState([]);
+  let TotalExp = Number(Expensess) + Number(insertedExpensess);
+
   useEffect(() => {
     getDocs(colRef).then((response) => {
       const pt = response.docs.map((doc) => ({
@@ -18,18 +20,28 @@ export default function Expensess({ navigation, bud }) {
       setExpensessRefBudget([...pt]);
     });
   }, [ExpensessRefBudget]);
-  let TotalExp = Number(Expensess) + Number(insertedExpensess);
 
-  const handleInput = () => {
+  const handleInput = (e) => {
     addDoc(colRef, {
       ExpensessName: ExpensessName,
       insertedExpensess: insertedExpensess,
     });
+    setExpensess(e);
+
     setTotalExpensess(TotalExp);
+    console.log(totalExpensess);
   };
 
   return (
     <View>
+      <Text>Expensess</Text>
+
+      <TextInput
+        onChangeText={(e) => {
+          setExpensess(e);
+        }}
+        placeholder="Expensess"
+      />
       <Text>Add expensess</Text>
       <TextInput
         name="Expensess"
@@ -46,27 +58,6 @@ export default function Expensess({ navigation, bud }) {
         onChangeText={(e) => setInsertedExpensess(e)}
         placeholder="2000"
       />
-      <Text>Expensess</Text>
-
-      <TextInput
-        onChangeText={(e) => {
-          setExpensess(e);
-        }}
-        placeholder="Expensess"
-      />
-
-      <Text>Total Expensess</Text>
-      <TextInput value={totalExpensess} placeholder="2000" />
-
-      <TextInput value={totalExpensess} placeholder="Total Expensess" />
-      {ExpensessRefBudget.map((bud) => (
-        <View>
-          <Text>{bud.data.ExpensessName}</Text>
-
-          <TextInput value={bud.data.insertedExpensess} />
-        </View>
-      ))}
-
       <Button
         title="Submit"
         onPress={() => {
@@ -75,6 +66,18 @@ export default function Expensess({ navigation, bud }) {
       >
         Submit
       </Button>
+
+      {/* <Text>Total Expensess</Text>
+      <TextInput value={TotalExp} placeholder="Total Expensess" /> */}
+
+      {ExpensessRefBudget.map((bud) => (
+        <View key={bud.id}>
+          <Text>{bud.data.ExpensessName}</Text>
+
+          <TextInput value={bud.data.insertedExpensess} />
+        </View>
+      ))}
+
       <Button
         title="Continue"
         onPress={() => {
